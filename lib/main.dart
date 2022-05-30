@@ -1,11 +1,14 @@
+import './screens/auth_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import './screens/chat_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -14,35 +17,35 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
    
   return MaterialApp(
-    home: FutureBuilder(
-        // Initialize FlutterFire
-        future: Firebase.initializeApp(),
-        builder: (context, snapshot) {
-          // Check for errors
-          if (snapshot.hasError) {
-            //return SomethingWentWrong();
-          }
-  
-          // Once complete, show your application
-          if (snapshot.connectionState == ConnectionState.done) {
-            return ChatScreen();
-          }
-  
-          // Otherwise, show something whilst waiting for initialization to complete
-          return CircularProgressIndicator();
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.pink,
+          backgroundColor: Colors.pink,
+          accentColor: Colors.deepPurple,
+          accentColorBrightness: Brightness.dark,
+          buttonTheme: ButtonTheme.of(context).copyWith(
+            buttonColor: Colors.pink,
+            textTheme: ButtonTextTheme.primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
+        home: StreamBuilder(  //chenges and automatically updated
+          stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, userSnapshot) {
+            if(userSnapshot.hasData){
+              return ChatScreen();
+            }
+            return AuthScreen();
         },
-      ),
+        ),
   );
-
-  }
-}
-
-        // title: 'Flutter Demo',
-        // theme: ThemeData(
-        //   primarySwatch: Colors.blue,
-        // ),
-        // home: ChatScreen(),
+        }
+        }
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -54,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
       ),
 
     );

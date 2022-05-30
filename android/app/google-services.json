@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "469271688159",
+    "firebase_url": "https://chat-181e8-default-rtdb.firebaseio.com",
     "project_id": "chat-181e8",
     "storage_bucket": "chat-181e8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:469271688159:android:d4199b6798586cad77ca6a",
+        "mobilesdk_app_id": "1:469271688159:android:b85f2153acc6a63d77ca6a",
         "android_client_info": {
           "package_name": "com.example.chats"
         }
